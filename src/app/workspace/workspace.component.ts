@@ -10,8 +10,8 @@ import {StringBlockComponent} from '../components/inline-blocks/string-block/str
 })
 export class WorkspaceComponent implements OnInit {
 
-  public typedList = [
-      {id: 0, component: StringBlockComponent, data: new BlockText('Привет')},
+  public orderableLists = [
+    {component: StringBlockComponent, data: new BlockText('Привет')},
   ];
 
   constructor() {
@@ -22,14 +22,9 @@ export class WorkspaceComponent implements OnInit {
 
   addBlock() {
     const aBlock = {
-      id: this.typedList.length,
       component: StringBlockComponent,
-      data: new BlockText('Новый блок')
+      data: new BlockText('Новый блок ' + this.orderableLists.length)
     };
-    this.typedList.push(aBlock);
-  }
-
-  public removeItem(itemId: number) {
-    this.typedList.splice(itemId, 1);
+    this.orderableLists.push(aBlock);
   }
 }

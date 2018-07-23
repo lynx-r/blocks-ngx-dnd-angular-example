@@ -1,28 +1,13 @@
-<div fxLayout="row" fxFlexFill>
+<div fxLayout="row">
   <div fxFlex="80">
     <mat-card>
-      <div class="container">
-        <div class="dndPlaceholder col-md-12"
-             #placeholder></div>
-        <div class="row">
-          <div class="col-md-4">
-            <h4>Блоки</h4>
-            <div [dndList]
-                 [dndPlaceholder]="placeholder"
-                 [dndModel]="typedList">
-              {{typedList.length}}
-              <div *ngFor="let item of typedList"
-                   class="col-md-12"
-                   [dndType]="item.data.type"
-                   (dndMoved)="removeItem(item.id)"
-                   [dndDraggable]
-                   [dndObject]="item">
-                {{item.data.text}}
-                {{item.id}}
-                <!--<app-inline-host [ngxComponentOutlet]="item.component" [data]="item.data"></app-inline-host>-->
-              </div>
-            </div>
-          </div>
+      <div class="ngx-dnd-container" ngxDroppable [model]="orderableLists">
+        <div
+          class="ngx-dnd-item"
+          ngxDraggable
+          [model]="item"
+          *ngFor="let item of orderableLists">
+          <app-inline-host [ngxComponentOutlet]="item.component" [data]="item.data"></app-inline-host>
         </div>
       </div>
     </mat-card>

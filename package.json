@@ -23,9 +23,10 @@
     "@angular/platform-browser": "^6.0.3",
     "@angular/platform-browser-dynamic": "^6.0.3",
     "@angular/router": "^6.0.3",
+    "@swimlane/dragula": "^3.7.3",
+    "@swimlane/ngx-dnd": "^5.0.1",
     "core-js": "^2.5.4",
     "ngx-component-outlet": "0.0.8",
-    "ngx-drag-and-drop-lists": "^1.2.4",
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.2.2",
     "zone.js": "^0.8.26"

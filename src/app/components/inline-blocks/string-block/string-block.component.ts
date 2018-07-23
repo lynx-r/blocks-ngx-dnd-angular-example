@@ -1,16 +1,21 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ContentComponent} from '../model/content-component';
-import {BlockData} from '../model/block-data';
 import {BlockText} from '../model/block-text';
 
 @Component({
   selector: 'app-string-block',
   template: `
-    <p>
+    <div class="text">
       {{data.text}}
-    </p>
+    </div>
   `,
-  styles: []
+  styles: [
+      `
+      .text {
+        background-color: yellow;
+      }
+    `
+  ]
 })
 export class StringBlockComponent implements OnInit, ContentComponent {
 
