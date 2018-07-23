@@ -6,7 +6,7 @@
     "cli": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "prod": "yarn cli build --prod --base-href \"/ngx-dnd-angular-example\" --output-path \"docs\"",
+    "prod": "yarn cli build --prod --base-href \"/ngx-dnd-angular-example/\" --output-path \"docs\"",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
