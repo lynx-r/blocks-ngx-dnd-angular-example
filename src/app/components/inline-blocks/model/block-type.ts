@@ -1,4 +1,5 @@
 export enum BlockType {
   TEXT,
-  MEDIA
+  IMAGE,
+  VIDEO
 }

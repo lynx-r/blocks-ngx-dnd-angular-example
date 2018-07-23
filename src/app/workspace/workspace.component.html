@@ -1,22 +1,31 @@
 <div fxLayout="row">
-  <div fxFlex="80">
-    <mat-card>
-      <div class="ngx-dnd-container" ngxDroppable [model]="orderableLists">
-        <div
-          class="ngx-dnd-item"
-          ngxDraggable
-          [model]="item"
-          *ngFor="let item of orderableLists">
-          <app-inline-host [ngxComponentOutlet]="item.component" [data]="item.data"></app-inline-host>
-        </div>
+  <mat-card fxFlex="60">
+    <div class="ngx-dnd-container" ngxDroppable [model]="orderableLists" (drop)="saveList()">
+      <div
+        class="ngx-dnd-item"
+        ngxDraggable
+        [model]="item"
+        *ngFor="let item of orderableLists">
+        <app-inline-host [ngxComponentOutlet]="item.component" [data]="item.data"></app-inline-host>
       </div>
-    </mat-card>
-  </div>
-  <div fxFlex="20">
-    <button mat-icon-button (click)="addBlock()">
-      <mat-icon>
-        add
-      </mat-icon>
-    </button>
-  </div>
+    </div>
+  </mat-card>
+  <mat-card fxFlex="40">
+    <div fxLayout="column">
+      <div fxLayout="row">
+        <button mat-raised-button (click)="addBlock(blockType, blockData)">
+          Добавить блок
+        </button>
+        <button mat-raised-button (click)="clearCache()">Очистить список</button>
+      </div>
+      <mat-radio-group [(ngModel)]="blockType">
+        <mat-radio-button [value]="BlockType.TEXT">Текст</mat-radio-button>
+        <mat-radio-button [value]="BlockType.IMAGE">Изображение</mat-radio-button>
+        <mat-radio-button [value]="BlockType.VIDEO">Видео</mat-radio-button>
+      </mat-radio-group>
+      <mat-form-field>
+        <textarea matInput [(ngModel)]="blockData" [placeholder]="'Введите данные'"></textarea>
+      </mat-form-field>
+    </div>
+  </mat-card>
 </div>

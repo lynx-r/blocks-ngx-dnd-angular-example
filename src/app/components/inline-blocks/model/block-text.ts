@@ -9,4 +9,8 @@ export class BlockText implements BlockData {
   constructor(text: string) {
     this.text = text;
   }
+
+  get data() {
+    return this.text;
+  }
 }

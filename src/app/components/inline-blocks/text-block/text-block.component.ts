@@ -6,18 +6,19 @@ import {BlockText} from '../model/block-text';
   selector: 'app-string-block',
   template: `
     <div class="text">
-      {{data.text}}
+      Текст: {{data.text}}
     </div>
   `,
   styles: [
       `
       .text {
+        height: 90px;
         background-color: yellow;
       }
     `
   ]
 })
-export class StringBlockComponent implements OnInit, ContentComponent {
+export class TextBlockComponent implements OnInit, ContentComponent {
 
   @Input() data: BlockText;
 

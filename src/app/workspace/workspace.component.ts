@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {BlockText} from '../components/inline-blocks/model/block-text';
-import {StringBlockComponent} from '../components/inline-blocks/string-block/string-block.component';
+import {BlockType} from '../components/inline-blocks/model/block-type';
+import {BlockService} from '../services/block.service';
 
 @Component({
   selector: 'app-workspace',
@@ -10,21 +10,31 @@ import {StringBlockComponent} from '../components/inline-blocks/string-block/str
 })
 export class WorkspaceComponent implements OnInit {
 
-  public orderableLists = [
-    {component: StringBlockComponent, data: new BlockText('Привет')},
-  ];
+  blockType = BlockType.TEXT;
+  blockData = '';
+  BlockType = BlockType;
 
-  constructor() {
+  public orderableLists = [];
+
+  constructor(private blockService: BlockService) {
   }
 
   ngOnInit() {
+    this.orderableLists = this.blockService.getBlocks();
   }
 
-  addBlock() {
-    const aBlock = {
-      component: StringBlockComponent,
-      data: new BlockText('Новый блок ' + this.orderableLists.length)
-    };
+  addBlock(type: BlockType, data: string) {
+    const aBlock = this.blockService.saveBlock(type, data);
     this.orderableLists.push(aBlock);
+    this.blockData = '';
+  }
+
+  saveList() {
+    this.blockService.saveBlocks(this.orderableLists);
+  }
+
+  clearCache() {
+    this.blockService.clear();
+    this.orderableLists = [];
   }
 }

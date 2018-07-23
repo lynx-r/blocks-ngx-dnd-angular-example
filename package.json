@@ -25,6 +25,7 @@
     "@angular/router": "^6.0.3",
     "@swimlane/dragula": "^3.7.3",
     "@swimlane/ngx-dnd": "^5.0.1",
+    "angular-webstorage-service": "^1.0.2",
     "core-js": "^2.5.4",
     "ngx-component-outlet": "0.0.8",
     "rxjs": "^6.0.0",
