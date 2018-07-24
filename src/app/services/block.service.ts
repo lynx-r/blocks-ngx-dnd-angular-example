@@ -25,6 +25,12 @@ export class BlockService {
     [BlockType.IMAGE]: BlockImage
   };
 
+  private initalData = {
+    [BlockType.TEXT]: '{"text": "УРОК 1"}',
+    [BlockType.VIDEO]: '{"youtubeId": "WNdfV_CBpfk"}',
+    [BlockType.IMAGE]: '{"url": "https://zooclub.ru/attach/25000/25335.jpg"}'
+  };
+
   constructor(private storage: StorageService) {
   }
 
@@ -32,22 +38,22 @@ export class BlockService {
     // лостаем из хранилища данные о блоке
     const list = this.storage.getBlocks();
     // отображаем данные на блок для компонента
-    return list.map(b => this.createBlock(b.type, b.data));
+    return list.map(b => this.restoreBlock(b.type, b.data));
   }
 
-  saveBlock(type: BlockType, data: string) {
+  createBlock(type: BlockType) {
     // создаем блок для компонента
-    const aBlock = this.createBlock(type, data);
+    const aBlock = this.createBlockComponent(type);
     // достаем из хранилища данные о блоке
     const list = this.storage.getBlocks();
-    list.push({type: type, data: data});
+    list.push({type: type, data: aBlock.data.json});
     // сохраняем данные о блоке
     this.storage.saveBlocks(list);
     return aBlock;
   }
 
   saveBlocks(orderableLists: any[]) {
-    const list = orderableLists.map(o => this.parseBlock(o.type, o.data));
+    const list = orderableLists.map(o => ({type: o.type, data: o.data.json}));
     this.storage.saveBlocks(list);
   }
 
@@ -55,18 +61,21 @@ export class BlockService {
     this.storage.saveBlocks([]);
   }
 
-  private createBlock(type: BlockType, data: string) {
+  private createBlockComponent(type: BlockType) {
+    const data = Object.assign(new this.dataTypes[type](), JSON.parse(this.initalData[type]));
     return {
       component: this.components[type],
-      data: new this.dataTypes[type](data),
+      data: data,
       type: type
     };
   }
 
-  private parseBlock(type: BlockType, data: any) {
+  private restoreBlock(type: BlockType, json: string) {
+    const data = Object.assign(new this.dataTypes[type](), JSON.parse(json));
     return {
-      type: type,
-      data: data.data
+      component: this.components[type],
+      data: data,
+      type: type
     };
   }
 }

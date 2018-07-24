@@ -2,18 +2,22 @@
   <mat-card fxFlex="60">
     <div class="ngx-dnd-container" ngxDroppable [model]="orderableLists" (drop)="saveList()">
       <div
+        fxLayout="column"
+        fxLayoutGap="12px"
+        fxLayoutAlign="space-around"
         class="ngx-dnd-item"
         ngxDraggable
         [model]="item"
         *ngFor="let item of orderableLists">
-        <app-inline-host [ngxComponentOutlet]="item.component" [data]="item.data"></app-inline-host>
+        <app-inline-host [ngxComponentOutlet]="item.component" [data]="item.data"
+                         (edited)="updateList(item, $event)"></app-inline-host>
       </div>
     </div>
   </mat-card>
   <mat-card fxFlex="40">
     <div fxLayout="column">
       <div fxLayout="row">
-        <button mat-raised-button (click)="addBlock(blockType, blockData)">
+        <button mat-raised-button (click)="addBlock(blockType)">
           Добавить блок
         </button>
         <button mat-raised-button (click)="clearCache()">Очистить список</button>
@@ -23,9 +27,6 @@
         <mat-radio-button [value]="BlockType.IMAGE">Изображение</mat-radio-button>
         <mat-radio-button [value]="BlockType.VIDEO">Видео</mat-radio-button>
       </mat-radio-group>
-      <mat-form-field>
-        <textarea matInput [(ngModel)]="blockData" [placeholder]="'Введите данные'"></textarea>
-      </mat-form-field>
     </div>
   </mat-card>
 </div>

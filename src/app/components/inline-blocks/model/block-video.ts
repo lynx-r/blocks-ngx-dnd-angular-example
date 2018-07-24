@@ -1,15 +1,15 @@
 import {BlockType} from './block-type';
+import {IBlockData} from './block-data';
 
-export class BlockVideo {
+export class BlockVideo implements IBlockData {
   type = BlockType.VIDEO;
 
   url: string;
 
-  constructor(url: string) {
-    this.url = url;
+  youtubeId: string;
+
+  get json() {
+    return JSON.stringify({url: this.url, youtubeId: this.youtubeId, type: this.type});
   }
 
-  get data() {
-    return this.url;
-  }
 }

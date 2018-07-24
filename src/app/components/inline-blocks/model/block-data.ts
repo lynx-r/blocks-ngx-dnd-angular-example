@@ -1,5 +1,5 @@
 import {BlockType} from './block-type';
 
-export interface BlockData {
+export interface IBlockData {
   type: BlockType;
 }

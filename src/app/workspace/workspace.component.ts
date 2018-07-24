@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {BlockType} from '../components/inline-blocks/model/block-type';
 import {BlockService} from '../services/block.service';
+import {IBlockData} from '../components/inline-blocks/model/block-data';
 
 @Component({
   selector: 'app-workspace',
@@ -23,14 +24,19 @@ export class WorkspaceComponent implements OnInit {
     this.orderableLists = this.blockService.getBlocks();
   }
 
-  addBlock(type: BlockType, data: string) {
-    const aBlock = this.blockService.saveBlock(type, data);
+  addBlock(type: BlockType) {
+    const aBlock = this.blockService.createBlock(type);
     this.orderableLists.push(aBlock);
     this.blockData = '';
   }
 
   saveList() {
     this.blockService.saveBlocks(this.orderableLists);
+  }
+
+  updateList(item: any, data: IBlockData) {
+    this.orderableLists.splice(this.orderableLists.indexOf(item), 1, {...item, data: data});
+    this.saveList();
   }
 
   clearCache() {

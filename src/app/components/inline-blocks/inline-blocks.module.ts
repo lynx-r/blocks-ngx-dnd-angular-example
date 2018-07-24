@@ -5,13 +5,26 @@ import {TextBlockComponent} from './text-block/text-block.component';
 import {VideoBlockComponent} from './video-block/video-block.component';
 import {NgxComponentOutletModule} from 'ngx-component-outlet';
 import {ImageBlockComponent} from './image-block/image-block.component';
+import {MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule} from '@angular/material';
+import {BlockActionsComponent} from './block-actions/block-actions.component';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {FormsModule} from '@angular/forms';
+import {PipesModule} from '../../pipes/pipes.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    NgxComponentOutletModule
+    FormsModule,
+    FlexLayoutModule,
+    NgxComponentOutletModule,
+    MatCardModule,
+    MatButtonModule,
+    MatInputModule,
+    MatFormFieldModule,
+
+    PipesModule
   ],
-  declarations: [InlineHostComponent, TextBlockComponent, VideoBlockComponent, ImageBlockComponent],
+  declarations: [InlineHostComponent, TextBlockComponent, VideoBlockComponent, ImageBlockComponent, BlockActionsComponent],
   exports: [InlineHostComponent, TextBlockComponent, VideoBlockComponent],
   entryComponents: [
     InlineHostComponent, TextBlockComponent, VideoBlockComponent, ImageBlockComponent

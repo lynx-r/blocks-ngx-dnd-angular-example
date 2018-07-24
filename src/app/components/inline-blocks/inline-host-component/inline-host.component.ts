@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {BlockData} from '../model/block-data';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {IBlockData} from '../model/block-data';
 
 @Component({
   selector: 'app-inline-host',
@@ -9,7 +9,9 @@ import {BlockData} from '../model/block-data';
 })
 export class InlineHostComponent implements OnInit {
 
-  @Input() data: BlockData;
+  @Output() edited = new EventEmitter<IBlockData>();
+
+  @Input() data: IBlockData;
 
   constructor() {
   }

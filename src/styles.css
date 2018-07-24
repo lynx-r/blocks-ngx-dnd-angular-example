@@ -1,2 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+/* sitepoint: Bootstrap uses a class of .img-responsive to make any image responsive: */
+.img-responsive {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
