@@ -6,6 +6,6 @@ export class BlockImage implements IBlockData {
   url: string;
 
   get json() {
-    return JSON.stringify({url: this.url});
+    return {url: this.url};
   }
 }

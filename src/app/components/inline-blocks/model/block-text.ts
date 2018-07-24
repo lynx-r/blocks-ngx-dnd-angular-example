@@ -6,6 +6,6 @@ export class BlockText implements IBlockData {
   text: string;
 
   get json() {
-    return JSON.stringify({text: this.text});
+    return {text: this.text};
   }
 }

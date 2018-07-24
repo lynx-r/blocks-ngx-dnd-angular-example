@@ -26,9 +26,9 @@ export class BlockService {
   };
 
   private initalData = {
-    [BlockType.TEXT]: '{"text": "УРОК 1"}',
-    [BlockType.VIDEO]: '{"youtubeId": "vcsGu9ug9J4"}',
-    [BlockType.IMAGE]: '{"url": "https://material.angular.io/assets/img/examples/shiba2.jpg"}'
+    [BlockType.TEXT]: {text: 'УРОК 1'},
+    [BlockType.VIDEO]: {youtubeId: 'vcsGu9ug9J4'},
+    [BlockType.IMAGE]: {url: 'https://material.angular.io/assets/img/examples/shiba2.jpg'}
   };
 
   constructor(private storage: StorageService) {
@@ -66,7 +66,7 @@ export class BlockService {
   }
 
   private createBlockComponent(type: BlockType) {
-    const data = Object.assign(new this.dataTypes[type](), JSON.parse(this.initalData[type]));
+    const data = Object.assign(new this.dataTypes[type](), this.initalData[type]);
     return {
       component: this.components[type],
       data: data,
@@ -75,7 +75,7 @@ export class BlockService {
   }
 
   private restoreBlock(type: BlockType, json: string) {
-    const data = Object.assign(new this.dataTypes[type](), JSON.parse(json));
+    const data = Object.assign(new this.dataTypes[type](), json);
     return {
       component: this.components[type],
       data: data,

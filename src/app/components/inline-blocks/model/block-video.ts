@@ -8,7 +8,7 @@ export class BlockVideo implements IBlockData {
   youtubeId: string;
 
   get json() {
-    return JSON.stringify({url: this.url, youtubeId: this.youtubeId});
+    return {url: this.url, youtubeId: this.youtubeId};
   }
 
 }
