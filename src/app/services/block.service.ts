@@ -27,7 +27,7 @@ export class BlockService {
 
   private initalData = {
     [BlockType.TEXT]: '{"text": "УРОК 1"}',
-    [BlockType.VIDEO]: '{"youtubeId": "WNdfV_CBpfk"}',
+    [BlockType.VIDEO]: '{"youtubeId": "vcsGu9ug9J4"}',
     [BlockType.IMAGE]: '{"url": "https://zooclub.ru/attach/25000/25335.jpg"}'
   };
 
