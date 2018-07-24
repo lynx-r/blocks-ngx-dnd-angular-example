@@ -28,7 +28,7 @@ export class BlockService {
   private initalData = {
     [BlockType.TEXT]: '{"text": "УРОК 1"}',
     [BlockType.VIDEO]: '{"youtubeId": "vcsGu9ug9J4"}',
-    [BlockType.IMAGE]: '{"url": "https://zooclub.ru/attach/25000/25335.jpg"}'
+    [BlockType.IMAGE]: '{"url": "https://material.angular.io/assets/img/examples/shiba2.jpg"}'
   };
 
   constructor(private storage: StorageService) {
@@ -55,6 +55,10 @@ export class BlockService {
   saveBlocks(orderableLists: any[]) {
     const list = orderableLists.map(o => ({type: o.type, data: o.data.json}));
     this.storage.saveBlocks(list);
+  }
+
+  getJson() {
+    return JSON.stringify(this.storage.getBlocks(), null, 4);
   }
 
   clear() {

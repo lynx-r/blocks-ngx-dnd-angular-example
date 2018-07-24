@@ -34,6 +34,10 @@ export class WorkspaceComponent implements OnInit {
     this.blockService.saveBlocks(this.orderableLists);
   }
 
+  getJson() {
+    return this.blockService.getJson();
+  }
+
   updateList(item: any, data: IBlockData) {
     this.orderableLists.splice(this.orderableLists.indexOf(item), 1, {...item, data: data});
     this.saveList();
