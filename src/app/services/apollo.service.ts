@@ -44,4 +44,20 @@ export class ApolloService {
       })
       .map((d) => d.data.add);
   }
+
+  saveBlocks(block: any, data: string) {
+    return this.apollo
+      .mutate({
+        mutation: gql`
+          mutation Block {
+            save (id: "${block.id}", data: "${data}") {
+              id,
+              type,
+              data
+            }
+          }
+        `
+      })
+      .map((d) => d.data.save);
+  }
 }

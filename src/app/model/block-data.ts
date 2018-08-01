@@ -1,3 +1,7 @@
+import {JsonObject, JsonProperty} from 'json2typescript';
+
+@JsonObject
 export class BlockData {
-  // type: EnumBlockType;
+  @JsonProperty()
+  id: string;
 }

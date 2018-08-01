@@ -45,7 +45,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   }
 
   saveList() {
-    // this.blockService.saveBlocks(this.orderableLists$);
+    // this.blockService.saveBlock(this.blockList$.getValue());
   }
 
   getJson() {
@@ -53,8 +53,12 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   }
 
   updateList(item: any, data: BlockData) {
-    // this.orderableLists$.splice(this.orderableLists$.indexOf(item), 1, {...item, data: data});
-    this.saveList();
+    this.blockService.saveBlock(item, data)
+      .subscribe(savedBlock => {
+        const arr = (<Array<any>>this.blockList$.getValue());
+        arr.splice(arr.findIndex(b => b.id === savedBlock.id), 1, savedBlock);
+        this.blockList$.next(arr);
+      });
   }
 
   clearCache() {

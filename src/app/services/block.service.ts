@@ -10,6 +10,7 @@ import {EnumBlockType} from '../model/enum-block-type';
 import {ApolloService} from './apollo.service';
 import {map} from 'rxjs/operators';
 import {JsonService} from './json.service';
+import {BlockData} from '../model/block-data';
 
 @Injectable({
   providedIn: 'root'
@@ -42,24 +43,28 @@ export class BlockService {
   getBlocks() {
     return this.apolloService.queryBlocks()
       .pipe(
-        map(blocks => blocks.map(block => this.restoreBlock(block.type, block.data)))
+        map(blocks => blocks.map(block => this.restoreBlock(block)))
       );
   }
 
   createBlock(type: EnumBlockType) {
     // создаем блок для компонента
-    const aBlock = this.createDefaultBlock(type);
+    const aBlock = this.createDefaultBlock({id: undefined, type: type, data: undefined});
     // достаем из хранилища данные о блоке
     const dataString = this.jsonService.serialize(aBlock.data);
     return this.apolloService.addBlock(type, dataString)
       .pipe(
-        map(block => this.restoreBlock(block.type, block.data))
+        map(block => this.restoreBlock(block))
       );
   }
 
-  saveBlocks(orderableLists: any[]) {
-    const list = orderableLists.map(o => ({type: o.type, data: o.data.json}));
-    this.storage.saveBlocks(list);
+  saveBlock(block: any, data: BlockData) {
+    console.log(block, data);
+    const dataStr = this.jsonService.serialize(block.data);
+    return this.apolloService.saveBlocks(block, dataStr)
+      .pipe(
+        map(b => this.restoreBlock(b))
+      );
   }
 
   getJson() {
@@ -70,28 +75,31 @@ export class BlockService {
     this.storage.saveBlocks([]);
   }
 
-  private createDefaultBlock(type: EnumBlockType) {
-    const data = this.jsonService.deserialize(<any>this.dataTypes[type], this.initialData[type]);
+  private createDefaultBlock(block: any) {
+    const {id, type, data} = block;
+    const dataObj = this.jsonService.deserialize(<any>this.dataTypes[type], this.initialData[type]);
     return {
       component: this.components[type],
-      data: data,
+      data: dataObj,
       type: type
     };
   }
 
-  private restoreBlock(type: EnumBlockType, json: any) {
-    console.log('restore', type, json);
-    const data = this.jsonService.deserialize(<any>this.dataTypes[type], json);
+  private restoreBlock(block: any) {
+    const {id, type, data} = block;
+    console.log('restore', block, id, type, data);
+    const dataObj = this.jsonService.deserialize(<any>this.dataTypes[type], data);
 
     // fixme ???
     const blocks = this.storage.getBlocks();
-    blocks.push({data: data, type: type});
+    blocks.push({data: dataObj, type: type});
     this.storage.saveBlocks(blocks);
     // ***
 
     return {
+      id: id,
       component: this.components[type],
-      data: data,
+      data: dataObj,
       type: type
     };
   }
