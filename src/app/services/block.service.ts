@@ -44,21 +44,14 @@ export class BlockService {
       .pipe(
         map(blocks => blocks.map(block => this.restoreBlock(block.type, block.data)))
       );
-    // flatMap(res =>
-    // res.data.blocks.map(b => this.restoreBlock(b.type, b.data))
-    // ),
-    // blocks.subscribe(b => console.log(b));
-    // лостаем из хранилища данные о блоке
-    // const list = this.storage.getBlocks();
-    // отображаем данные на блок для компонента
-    // return list.map(b => this.restoreBlock(b.type, b.data));
   }
 
   createBlock(type: EnumBlockType) {
     // создаем блок для компонента
     const aBlock = this.createBlockComponent(type);
     // достаем из хранилища данные о блоке
-    this.apolloService.addBlock(type, this.jsonService.serialize(aBlock.data))
+    const dataString = this.jsonService.serialize(aBlock.data);
+    this.apolloService.addBlock(type, dataString)
       .subscribe((b) => console.log(b));
     return aBlock;
   }

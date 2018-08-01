@@ -13,7 +13,10 @@ export class JsonService {
 
   deserialize(str: any, clazz: Type<any>) {
     try {
-      const json = JSON.parse(str);
+      let json = str;
+      if (typeof str === 'string') {
+        json = JSON.parse(str);
+      }
       return this.jsonConvert.deserialize(json, clazz);
     } catch (e) {
       console.log(<Error>e);
