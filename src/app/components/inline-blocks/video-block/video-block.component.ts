@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ContentComponent} from '../model/content-component';
-import {BlockVideo} from '../model/block-video';
+import {ContentComponent} from '../../../model/content-component';
+import {BlockVideo} from '../../../model/block-video';
 import {BaseComponent} from '../base-component';
-import {IBlockData} from '../model/block-data';
+import {BlockData} from '../../../model/block-data';
 import {NgForm} from '@angular/forms';
 
 @Component({
@@ -78,7 +78,7 @@ import {NgForm} from '@angular/forms';
 })
 export class VideoBlockComponent extends BaseComponent implements OnInit, ContentComponent {
 
-  @Output() edited = new EventEmitter<IBlockData>();
+  @Output() edited = new EventEmitter<BlockData>();
 
   @Input() data: BlockVideo;
 

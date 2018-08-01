@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ContentComponent} from '../model/content-component';
-import {BlockText} from '../model/block-text';
-import {IBlockData} from '../model/block-data';
+import {ContentComponent} from '../../../model/content-component';
+import {BlockText} from '../../../model/block-text';
+import {BlockData} from '../../../model/block-data';
 import {BaseComponent} from '../base-component';
 import {NgForm} from '@angular/forms';
 
@@ -49,7 +49,7 @@ import {NgForm} from '@angular/forms';
 })
 export class TextBlockComponent extends BaseComponent implements OnInit, ContentComponent {
 
-  @Output() edited = new EventEmitter<IBlockData>();
+  @Output() edited = new EventEmitter<BlockData>();
 
   @Input() data: BlockText;
 
