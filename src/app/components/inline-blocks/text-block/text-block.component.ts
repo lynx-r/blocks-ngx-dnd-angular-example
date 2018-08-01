@@ -12,7 +12,9 @@ import {NgForm} from '@angular/forms';
       <mat-card-header>
         <div mat-card-avatar class="header-image"></div>
         <mat-card-title>Текст</mat-card-title>
-        <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+        <mat-card-subtitle>
+          <app-order [order]="order"></app-order>
+        </mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
         <div *ngIf="!toggleEdit">
@@ -52,6 +54,7 @@ export class TextBlockComponent extends BaseComponent implements OnInit, Content
   @Output() edited = new EventEmitter<BlockData>();
 
   @Input() data: BlockText;
+  @Input() order: number;
 
   toggleEdit: boolean;
   isValidFormSubmitted = false;

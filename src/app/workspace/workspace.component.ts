@@ -18,14 +18,18 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
   blockList$: BehaviorSubject<any>;
   private blockSub: Subscription;
+  private blockIdAndOrderCache: any[];
 
   constructor(private blockService: BlockService) {
   }
 
   ngOnInit() {
     this.blockSub = this.blockService.getBlocks()
-      .subscribe(blocks =>
-        this.blockList$ = new BehaviorSubject<any[]>(blocks)
+      .subscribe(blocks => {
+          console.log(blocks);
+          this.blockList$ = new BehaviorSubject<any[]>(blocks);
+          this.blockIdAndOrderCache = [...blocks.map(b => ({id: b.id, order: b.order}))];
+        }
       );
   }
 
@@ -34,18 +38,29 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   }
 
   addBlock(type: EnumBlockType) {
-    this.blockService.createBlock(type)
+    const arr = <any[]>this.blockList$.getValue();
+    this.blockService.createBlock(arr.length, type)
       .subscribe(newBlock => {
           const newBlockArr = [newBlock];
-          const value = [...newBlockArr, ...this.blockList$.getValue()];
+        const value = [...newBlockArr, ...arr];
           this.blockList$.next(value);
         }
       );
     this.blockData = '';
   }
 
-  saveList() {
-    // this.blockService.saveBlock(this.blockList$.getValue());
+  saveList(event$) {
+    console.log(event$);
+    const dropBlock = this.blockIdAndOrderCache[event$.dropIndex];
+    if (dropBlock === undefined) {
+      return;
+    }
+    const blocks = (<Array<any>>this.blockList$.getValue());
+    blocks.map((b, index) => b.order = blocks.length - index);
+    this.blockService.saveBlocks(blocks)
+      .subscribe(value => {
+        this.blockList$.next(value);
+      });
   }
 
   getJson() {

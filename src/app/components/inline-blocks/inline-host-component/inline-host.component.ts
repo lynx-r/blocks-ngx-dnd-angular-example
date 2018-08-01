@@ -12,6 +12,7 @@ export class InlineHostComponent implements OnInit {
   @Output() edited = new EventEmitter<BlockData>();
 
   @Input() data: BlockData;
+  @Input() order: number;
 
   constructor() {
   }

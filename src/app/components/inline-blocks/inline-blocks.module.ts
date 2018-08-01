@@ -10,6 +10,7 @@ import {BlockActionsComponent} from './block-actions/block-actions.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule} from '@angular/forms';
 import {PipesModule} from '../../pipes/pipes.module';
+import {OrderComponent} from './order/order.component';
 
 @NgModule({
   imports: [
@@ -24,7 +25,7 @@ import {PipesModule} from '../../pipes/pipes.module';
 
     PipesModule
   ],
-  declarations: [InlineHostComponent, TextBlockComponent, VideoBlockComponent, ImageBlockComponent, BlockActionsComponent],
+  declarations: [InlineHostComponent, TextBlockComponent, VideoBlockComponent, ImageBlockComponent, BlockActionsComponent, OrderComponent],
   exports: [InlineHostComponent, TextBlockComponent, VideoBlockComponent],
   entryComponents: [
     InlineHostComponent, TextBlockComponent, VideoBlockComponent, ImageBlockComponent

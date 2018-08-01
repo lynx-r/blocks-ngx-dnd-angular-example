@@ -1,6 +1,6 @@
 <div fxLayout="row">
   <mat-card fxFlex="60">
-    <div class="ngx-dnd-container" ngxDroppable [model]="blockList$ | async" (drop)="saveList()">
+    <div class="ngx-dnd-container" ngxDroppable [model]="blockList$ | async" (drop)="saveList($event)">
       <div
         fxLayout="column"
         fxLayoutGap="12px"
@@ -9,7 +9,9 @@
         ngxDraggable
         [model]="item"
         *ngFor="let item of blockList$ | async">
-        <app-inline-host [ngxComponentOutlet]="item.component" [data]="item.data"
+        <app-inline-host [ngxComponentOutlet]="item.component"
+                         [data]="item.data"
+                         [order]="item.order"
                          (edited)="updateList(item, $event)"></app-inline-host>
       </div>
     </div>

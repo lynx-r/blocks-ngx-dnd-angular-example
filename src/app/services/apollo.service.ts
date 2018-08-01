@@ -21,6 +21,7 @@ export class ApolloService {
               id
               type
               data
+              order
             }
           }
         `,
@@ -29,15 +30,16 @@ export class ApolloService {
       .map(({data}) => data.blocks);
   }
 
-  addBlock(type: EnumBlockType, data: any) {
+  addBlock(type: EnumBlockType, data: any, order: number) {
     return this.apollo
       .mutate({
         mutation: gql`
           mutation Block {
-            add (type: "${type}", data: "${data}") {
+            add (type: "${type}", data: "${data}", order: ${order}) {
               id,
               type,
-              data
+            data,
+            order
             }
           }
         `
@@ -45,19 +47,33 @@ export class ApolloService {
       .map((d) => d.data.add);
   }
 
-  saveBlocks(block: any, data: string) {
+  saveBlock(block: any, data: string, order: number) {
     return this.apollo
       .mutate({
         mutation: gql`
           mutation Block {
-            save (id: "${block.id}", data: "${data}") {
+            save (id: "${block.id}", data: "${data}", order: ${order}) {
               id,
               type,
-              data
+            data,
+            order
             }
           }
         `
       })
       .map((d) => d.data.save);
+  }
+
+  saveBlocks(blockMapped: string[]) {
+    return this.apollo
+    .mutate({
+      mutation: gql`
+        mutation Block {
+          batchSave (blocks: [${blockMapped}]) {
+            blocks
+          }
+        }
+      `
+    });
   }
 }
