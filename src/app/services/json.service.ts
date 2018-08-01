@@ -11,7 +11,7 @@ export class JsonService {
     this.jsonConvert = new JsonConvert();
   }
 
-  deserialize(str: any, clazz: Type<any>) {
+  deserialize(clazz: Type<any>, str: any) {
     try {
       let json = str;
       if (typeof str === 'string') {
@@ -19,7 +19,7 @@ export class JsonService {
       }
       return this.jsonConvert.deserialize(json, clazz);
     } catch (e) {
-      console.log(<Error>e);
+      console.error(<Error>e);
     }
   }
 
@@ -27,7 +27,6 @@ export class JsonService {
     const serialize = this.jsonConvert.serialize(data);
     let str = JSON.stringify(serialize);
     str = str.replace(/"/g, '\\"');
-    console.log('str', str);
     return str;
   }
 }

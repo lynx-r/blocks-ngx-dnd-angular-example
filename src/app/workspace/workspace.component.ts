@@ -1,8 +1,8 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {EnumBlockType} from '../model/enum-block-type';
 import {BlockService} from '../services/block.service';
 import {BlockData} from '../model/block-data';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-workspace',
@@ -10,25 +10,37 @@ import {Observable} from 'rxjs';
   styleUrls: ['./workspace.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class WorkspaceComponent implements OnInit {
+export class WorkspaceComponent implements OnInit, OnDestroy {
 
   blockType = EnumBlockType.TEXT;
   blockData = '';
   BlockType = EnumBlockType;
 
-  public orderableLists$: Observable<any>;
+  blockList$: BehaviorSubject<any>;
+  private blockSub: Subscription;
 
   constructor(private blockService: BlockService) {
   }
 
   ngOnInit() {
-    this.orderableLists$ = this.blockService.getBlocks();
-    this.orderableLists$.subscribe(b => console.log('got', b));
+    this.blockSub = this.blockService.getBlocks()
+      .subscribe(blocks =>
+        this.blockList$ = new BehaviorSubject<any[]>(blocks)
+      );
+  }
+
+  ngOnDestroy() {
+    this.blockSub.unsubscribe();
   }
 
   addBlock(type: EnumBlockType) {
-    const aBlock = this.blockService.createBlock(type);
-    // this.orderableLists$.push(aBlock);
+    this.blockService.createBlock(type)
+      .subscribe(newBlock => {
+          const newBlockArr = [newBlock];
+          const value = [...newBlockArr, ...this.blockList$.getValue()];
+          this.blockList$.next(value);
+        }
+      );
     this.blockData = '';
   }
 

@@ -41,6 +41,7 @@ export class ApolloService {
             }
           }
         `
-      });
+      })
+      .map((d) => d.data.add);
   }
 }
