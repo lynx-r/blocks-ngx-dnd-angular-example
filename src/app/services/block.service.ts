@@ -11,6 +11,7 @@ import {ApolloService} from './apollo.service';
 import {map} from 'rxjs/operators';
 import {JsonService} from './json.service';
 import {BlockData} from '../model/block-data';
+import {BlockContainer} from '../model/block-container';
 
 @Injectable({
   providedIn: 'root'
@@ -70,13 +71,12 @@ export class BlockService {
 
   saveBlocks(blocks: Array<any>) {
     const blockMapped = blocks.map(b =>
-      // todo introduce type
-      (this.jsonService.serialize({id: b.id, type: b.type, data: this.jsonService.serialize(b.data), order: b.order}))
+      new BlockContainer(b.id, b.type, this.jsonService.serialize(b.data), b.order)
     );
     console.log('SAVE BLOCKS', blockMapped);
     return this.apolloService.saveBlocks(blockMapped)
       .pipe(
-        map(b => console.log(b))
+        map(newBlocks => Object.values(newBlocks).map(b => this.restoreBlock(b)))
       );
   }
 

@@ -1,0 +1,11 @@
+"
+mutation Block {
+  batchSave
+  (blocks: [
+    {
+      \
+    "id\":\"5b6211613d71320711f395de\",\"type\":\"0\",\"data\":{\"text\":\"УРОК 2\"},\"order\":3},{\"id\":\"5b6211623d71320711f395df\",\"type\":\"0\",\"data\":{\"text\":\"УРОК 3\"},\"order\":2},{\"id\":\"5b62115f3d71320711f395dd\",\"type\":\"0\",\"data\":{\"text\":\"УРОК 1\"},\"order\":1}]) {
+    blocks
+    }
+  }
+    "

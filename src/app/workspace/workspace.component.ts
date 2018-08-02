@@ -59,6 +59,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     blocks.map((b, index) => b.order = blocks.length - index);
     this.blockService.saveBlocks(blocks)
       .subscribe(value => {
+        console.log('list blocks', value);
         this.blockList$.next(value);
       });
   }

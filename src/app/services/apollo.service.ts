@@ -3,6 +3,7 @@ import {Apollo} from 'apollo-angular';
 import gql from 'graphql-tag';
 import {EnumBlockType} from '../model/enum-block-type';
 import 'rxjs/add/operator/map';
+import {BlockContainer} from '../model/block-container';
 
 @Injectable({
   providedIn: 'root'
@@ -14,66 +15,75 @@ export class ApolloService {
 
   queryBlocks() {
     return this.apollo
-      .watchQuery<{ blocks: Array<{ id, type, data }> }>({
-        query: gql`
-          query Block {
-            blocks {
-              id
-              type
-              data
-              order
-            }
+    .watchQuery<{ blocks: Array<{ id, type, data }> }>({
+      query: gql`
+        query Block {
+          blocks {
+            id
+            type
+            data
+            order
           }
-        `,
-      })
-      .valueChanges
-      .map(({data}) => data.blocks);
+        }
+      `,
+    })
+    .valueChanges
+    .map(({data}) => data.blocks);
   }
 
   addBlock(type: EnumBlockType, data: any, order: number) {
     return this.apollo
-      .mutate({
-        mutation: gql`
-          mutation Block {
-            add (type: "${type}", data: "${data}", order: ${order}) {
-              id,
-              type,
-            data,
-            order
-            }
-          }
-        `
-      })
-      .map((d) => d.data.add);
+    .mutate({
+      mutation: gql`
+        mutation Block {
+          add (type: "${type}", data: "${data}", order: ${order}) {
+          id
+          type
+          data
+          order
+        }
+        }
+      `
+    })
+    .map((d) => d.data.add);
   }
 
   saveBlock(block: any, data: string, order: number) {
     return this.apollo
-      .mutate({
-        mutation: gql`
-          mutation Block {
-            save (id: "${block.id}", data: "${data}", order: ${order}) {
-              id,
-              type,
-            data,
-            order
-            }
-          }
-        `
-      })
-      .map((d) => d.data.save);
+    .mutate({
+      mutation: gql`
+        mutation Block {
+          save (id: "${block.id}", data: "${data}", order: ${order}) {
+          id
+          type
+          data
+          order
+        }
+        }
+      `
+    })
+    .map((d) => d.data.save);
   }
 
-  saveBlocks(blockMapped: string[]) {
+  saveBlocks(blockMapped: BlockContainer[]) {
+    const batchMutation = blockMapped
+      .map(block => `
+        block${block.id}: save(id: "${block.id}", data: "${block.data}", order: ${block.order}) {
+          id
+          type
+          data
+          order
+        }
+      `)
+      .join('\n');
     return this.apollo
     .mutate({
       mutation: gql`
         mutation Block {
-          batchSave (blocks: [${blockMapped}]) {
-            blocks
-          }
+          ${batchMutation}
         }
       `
-    });
+    })
+    .map((d) => d.data);
   }
 }
