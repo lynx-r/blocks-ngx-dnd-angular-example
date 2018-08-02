@@ -60,8 +60,8 @@ import {NgForm} from '@angular/forms';
           </table>
         </form>
       </mat-card-content>
-      <mat-card-actions>
-        <app-block-actions (toggleEdit)="toggleEditing(videoForm)"></app-block-actions>
+      <mat-card-actions (mouseleave)="moves.emit(true)" (mouseenter)="moves.emit(false)">
+        <app-block-actions (toggleEdit)="toggleEditing(videoForm)" (destroy)="destroy.emit()"></app-block-actions>
       </mat-card-actions>
     </mat-card>
   `,
@@ -81,6 +81,8 @@ import {NgForm} from '@angular/forms';
 export class VideoBlockComponent extends BaseComponent implements OnInit, ContentComponent {
 
   @Output() edited = new EventEmitter<BlockData>();
+  @Output() destroy = new EventEmitter<any>();
+  @Output() moves = new EventEmitter<boolean>();
 
   @Input() data: BlockVideo;
   @Input() order: number;

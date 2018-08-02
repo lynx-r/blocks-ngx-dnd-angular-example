@@ -65,6 +65,20 @@ export class ApolloService {
     .map((d) => d.data.save);
   }
 
+  destroyBlock(blockId: string) {
+    return this.apollo
+    .mutate({
+      mutation: gql`
+        mutation Block {
+          destroy (id: "${blockId}") {
+            id
+          }
+        }
+      `
+    })
+    .map((d) => d.data.destroy);
+  }
+
   saveBlocks(blockMapped: BlockContainer[]) {
     const batchMutation = blockMapped
       .map(block => `

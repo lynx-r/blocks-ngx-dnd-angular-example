@@ -8,11 +8,15 @@
         class="ngx-dnd-item"
         ngxDraggable
         [model]="item"
+        [moves]="moves"
         *ngFor="let item of blockList$ | async">
         <app-inline-host [ngxComponentOutlet]="item.component"
                          [data]="item.data"
                          [order]="item.order"
-                         (edited)="updateList(item, $event)"></app-inline-host>
+                         (moves)="setMoves($event)"
+                         (edited)="updateList(item, $event)"
+                         (destroy)="destroyBlock(item.id)"
+        ></app-inline-host>
       </div>
     </div>
   </mat-card>

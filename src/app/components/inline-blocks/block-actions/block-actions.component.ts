@@ -6,6 +6,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
     <div fxLayout="row">
       <div fxFlex></div>
       <button mat-button (click)="toggleEdit.emit()" [disabled]="disabled">{{ actionToggle ? 'СОХРАНИТЬ' : 'РЕДАКТИРОВАТЬ'}}</button>
+      <button mat-button (click)="destroy.emit()" [disabled]="disabled">УДАЛИТЬ</button>
     </div>
   `,
   styles: []
@@ -13,6 +14,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 export class BlockActionsComponent implements OnInit {
 
   @Output() toggleEdit = new EventEmitter<any>();
+  @Output() destroy = new EventEmitter<any>();
   @Input() disabled: boolean;
 
   actionToggle: boolean;

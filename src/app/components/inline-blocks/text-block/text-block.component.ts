@@ -31,8 +31,8 @@ import {NgForm} from '@angular/forms';
           </mat-form-field>
         </form>
       </mat-card-content>
-      <mat-card-actions>
-        <app-block-actions (toggleEdit)="toggleEditing(textForm)"></app-block-actions>
+      <mat-card-actions (mouseleave)="moves.emit(true)" (mouseenter)="moves.emit(false)">
+        <app-block-actions (toggleEdit)="toggleEditing(textForm)" (destroy)="destroy.emit()"></app-block-actions>
       </mat-card-actions>
     </mat-card>
   `,
@@ -52,6 +52,8 @@ import {NgForm} from '@angular/forms';
 export class TextBlockComponent extends BaseComponent implements OnInit, ContentComponent {
 
   @Output() edited = new EventEmitter<BlockData>();
+  @Output() destroy = new EventEmitter<any>();
+  @Output() moves = new EventEmitter<boolean>();
 
   @Input() data: BlockText;
   @Input() order: number;

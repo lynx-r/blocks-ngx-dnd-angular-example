@@ -36,8 +36,8 @@ import {ContentComponent} from '../../../model/content-component';
           </mat-form-field>
         </form>
       </mat-card-content>
-      <mat-card-actions>
-        <app-block-actions (toggleEdit)="toggleEditing(imageForm)"></app-block-actions>
+      <mat-card-actions (mouseleave)="moves.emit(true)" (mouseenter)="moves.emit(false)">
+        <app-block-actions (toggleEdit)="toggleEditing(imageForm)" (destroy)="destroy.emit()"></app-block-actions>
       </mat-card-actions>
     </mat-card>
   `,
@@ -55,6 +55,8 @@ import {ContentComponent} from '../../../model/content-component';
 export class ImageBlockComponent extends BaseComponent implements OnInit, ContentComponent {
 
   @Output() edited = new EventEmitter<BlockData>();
+  @Output() destroy = new EventEmitter<any>();
+  @Output() moves = new EventEmitter<boolean>();
 
   @Input() data: BlockImage;
   @Input() order: number;

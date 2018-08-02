@@ -15,6 +15,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   blockType = EnumBlockType.TEXT;
   blockData = '';
   BlockType = EnumBlockType;
+  moves = true;
 
   blockList$: BehaviorSubject<any>;
   private blockSub: Subscription;
@@ -60,6 +61,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     blocks.map((b, index) => b.order = blocks.length - index);
     this.blockService.saveBlocks(blocks)
       .subscribe(value => {
+        value.sort((a, b) => b.order - a.order);
         this.blockList$.next(value);
         this.updateBlocksJson(value);
       });
@@ -78,6 +80,21 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.blockList$.next(arr);
         this.updateBlocksJson(arr);
       });
+  }
+
+  destroyBlock(blockId: string) {
+    this.blockService.destroyBlock(blockId)
+      .subscribe(destroyedBlock => {
+        const arr = (<Array<any>>this.blockList$.getValue());
+        arr.splice(arr.findIndex(b => b.id === destroyedBlock.id), 1);
+        arr.sort((a, b) => b.order - a.order);
+        this.blockList$.next(arr);
+        this.updateBlocksJson(arr);
+      });
+  }
+
+  setMoves(event: boolean) {
+    this.moves = event;
   }
 
   private updateBlocksJson(blocks: any[]) {

@@ -99,4 +99,8 @@ export class BlockService {
       order: order
     };
   }
+
+  destroyBlock(blockId: string) {
+    return this.apolloService.destroyBlock(blockId);
+  }
 }

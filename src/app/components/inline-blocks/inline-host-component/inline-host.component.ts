@@ -10,6 +10,11 @@ import {BlockData} from '../../../model/block-data';
 export class InlineHostComponent implements OnInit {
 
   @Output() edited = new EventEmitter<BlockData>();
+  @Output() destroy = new EventEmitter<string>();
+  /**
+   * Включает/отключает перемащения
+   */
+  @Output() moves = new EventEmitter<boolean>();
 
   @Input() data: BlockData;
   @Input() order: number;
