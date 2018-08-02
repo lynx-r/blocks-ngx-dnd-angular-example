@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {StorageService} from './storage.service';
 import {BlockText} from '../model/block-text';
 import {BlockImage} from '../model/block-image';
 import {ImageBlockComponent} from '../components/inline-blocks/image-block/image-block.component';
@@ -36,8 +35,7 @@ export class BlockService {
     [EnumBlockType.IMAGE]: {id: '', url: 'https://material.angular.io/assets/img/examples/shiba2.jpg'}
   };
 
-  constructor(private storage: StorageService,
-              private apolloService: ApolloService,
+  constructor(private apolloService: ApolloService,
               private jsonService: JsonService) {
   }
 
@@ -61,7 +59,6 @@ export class BlockService {
   }
 
   saveBlock(block: any, data: BlockData) {
-    console.log(block, data);
     const dataStr = this.jsonService.serialize(block.data);
     return this.apolloService.saveBlock(block, dataStr, block.order)
       .pipe(
@@ -73,19 +70,10 @@ export class BlockService {
     const blockMapped = blocks.map(b =>
       new BlockContainer(b.id, b.type, this.jsonService.serialize(b.data), b.order)
     );
-    console.log('SAVE BLOCKS', blockMapped);
     return this.apolloService.saveBlocks(blockMapped)
       .pipe(
         map(newBlocks => Object.values(newBlocks).map(b => this.restoreBlock(b)))
       );
-  }
-
-  getJson() {
-    return JSON.stringify(this.storage.getBlocks(), null, 4);
-  }
-
-  clear() {
-    this.storage.saveBlocks([]);
   }
 
   private createDefaultBlock(block: any) {
@@ -101,14 +89,7 @@ export class BlockService {
 
   private restoreBlock(block: any) {
     const {id, type, data, order} = block;
-    console.log('restore', block, id, type, data);
     const dataObj = this.jsonService.deserialize(<any>this.dataTypes[type], data);
-
-    // fixme ???
-    const blocks = this.storage.getBlocks();
-    blocks.push({data: dataObj, type: type, order: order});
-    this.storage.saveBlocks(blocks);
-    // ***
 
     return {
       id: id,

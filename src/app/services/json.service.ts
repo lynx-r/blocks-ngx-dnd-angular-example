@@ -25,10 +25,8 @@ export class JsonService {
 
   serialize(data: any) {
     const serialize = this.jsonConvert.serialize(data);
-    console.log(serialize);
     let str = JSON.stringify(serialize);
     str = str.replace(/"/g, '\\"');
-    console.log(str);
     return str;
   }
 }

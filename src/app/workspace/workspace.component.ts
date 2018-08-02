@@ -19,6 +19,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   blockList$: BehaviorSubject<any>;
   private blockSub: Subscription;
   private blockIdAndOrderCache: any[];
+  private blocksJson: string;
 
   constructor(private blockService: BlockService) {
   }
@@ -26,9 +27,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.blockSub = this.blockService.getBlocks()
       .subscribe(blocks => {
-          console.log(blocks);
           this.blockList$ = new BehaviorSubject<any[]>(blocks);
           this.blockIdAndOrderCache = [...blocks.map(b => ({id: b.id, order: b.order}))];
+        this.updateBlocksJson(blocks);
         }
       );
   }
@@ -44,13 +45,13 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
           const newBlockArr = [newBlock];
         const value = [...newBlockArr, ...arr];
           this.blockList$.next(value);
+        this.updateBlocksJson(value);
         }
       );
     this.blockData = '';
   }
 
   saveList(event$) {
-    console.log(event$);
     const dropBlock = this.blockIdAndOrderCache[event$.dropIndex];
     if (dropBlock === undefined) {
       return;
@@ -59,13 +60,13 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     blocks.map((b, index) => b.order = blocks.length - index);
     this.blockService.saveBlocks(blocks)
       .subscribe(value => {
-        console.log('list blocks', value);
         this.blockList$.next(value);
+        this.updateBlocksJson(value);
       });
   }
 
   getJson() {
-    return this.blockService.getJson();
+    return this.blocksJson;
   }
 
   updateList(item: any, data: BlockData) {
@@ -73,12 +74,13 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
       .subscribe(savedBlock => {
         const arr = (<Array<any>>this.blockList$.getValue());
         arr.splice(arr.findIndex(b => b.id === savedBlock.id), 1, savedBlock);
+        arr.sort((a, b) => b.order - a.order);
         this.blockList$.next(arr);
+        this.updateBlocksJson(arr);
       });
   }
 
-  clearCache() {
-    this.blockService.clear();
-    // this.orderableLists$ = [];
+  private updateBlocksJson(blocks: any[]) {
+    this.blocksJson = JSON.stringify(blocks.map(b => ({id: b.id, type: b.type, data: b.data, order: b.order})), null, 4);
   }
 }
