@@ -1,5 +1,5 @@
 <div fxLayout="row">
-  <mat-card fxFlex="60">
+  <mat-card fxFlex="30">
     <div class="ngx-dnd-container" ngxDroppable [model]="blockList$ | async" (drop)="saveList($event)">
       <div
         fxLayout="column"
@@ -20,7 +20,7 @@
       </div>
     </div>
   </mat-card>
-  <mat-card fxFlex="40">
+  <mat-card fxFlex="70">
     <div fxLayout="column">
       <div fxLayout="row">
         <button mat-raised-button (click)="addBlock(blockType)">
