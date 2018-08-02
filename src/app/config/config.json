@@ -1,0 +1,8 @@
+{
+  "dev": {
+    "graphql": "http://localhost:4567/graphql"
+  },
+  "prod": {
+    "graphql": "https://spark-blocks-server.herokuapp.com/graphql"
+  }
+}
